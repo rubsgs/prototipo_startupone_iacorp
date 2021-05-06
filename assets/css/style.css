@@ -1,0 +1,116 @@
+@keyframes move_overlay{
+	0%{left: 0%;}
+	25%{left: 25%;}
+	50%{left: 50%;}
+	75%{left: 75%;}
+	100%{left: 100%; display: none; width: 0%;}
+}
+
+@keyframes exibe_logo{
+	0%{
+		opacity: 0;
+		height: 0px;
+	}
+
+	25%{
+		opacity: 0;
+		height: 25px;
+	}
+
+	50%{
+		opacity: 0.33;
+		height: 50px;
+	}
+
+	75%{
+		opacity: 0.66;
+		height: 75px;
+	}
+
+	100%{
+		opacity: 1;
+		height: 100px;
+	}
+}
+
+.container-menu{
+	background-color: #FFF;
+	padding-bottom: 5px;
+}
+
+.container-conteudo{
+	height: calc(100vh - 5vh - 5px);
+}
+.container-logo img{
+	max-height: 5vh;
+}
+
+.container-conteudo:nth-child(even){
+	background-color: #FAFAFA;
+}
+
+#overlay-pagina-inicial{
+	display: block;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	background-color: #FFF;
+	animation-name: move_overlay;
+	animation-duration: 2s;
+	animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+	animation-timing-function: linear;
+}
+
+.logo-animacao{
+	height: 0px;
+	max-height: 100px;
+	animation: exibe_logo 0.5s linear 2s 1 normal forwards;
+}
+
+#pagina-inicial{
+	overflow-x: unset;
+}
+
+.azul-logo{
+	color: #5988FF;
+	font-weight: bold;
+}
+
+.card-produto{
+	min-height: 240px;
+}
+
+.card-sobre{
+	min-height: 295px;
+}
+
+.card-produto .card-body{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+#produto img{
+	max-height: 500px;
+}
+
+#parceiros img {
+	max-height: 75px;
+}
+
+#demo input{
+	color: #5988FF;
+	font-weight: bold;
+}
+
+#demo input::placeholder{
+	color:#8BACFF;
+	font-weight: bold;
+}
+
+#demo button{
+	background-color: #5988FF;
+	color: #FFF;
+	font-weight: bold;
+}
