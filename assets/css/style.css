@@ -114,3 +114,25 @@
 	color: #FFF;
 	font-weight: bold;
 }
+
+.menu-prototipo{
+	border-bottom: 1px;
+	border-color: #000;
+	margin-bottom: 20px;
+}
+
+.container-prototipo{
+	height: calc(100vh - 5vh - 25px);
+	overflow-y: auto;
+}
+
+table.tabela-leads td:nth-child(5){
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+}
+
+.btn-tag{
+	font-size: 0.7em;
+	margin-right: 5px;
+}
