@@ -8,6 +8,13 @@
 		<link rel="stylesheet" href="./assets/css/style.css">
 		<script type="text/javascript" src="./assets/libs/popper/popper.min.js"></script>
 		<script type="text/javascript" src="./assets/libs/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript">
+			window.onload = function(){
+				document.getElementById("envia-login").onclick = function(){
+					window.location.replace("https://rubsgs.github.io/prototipo_startupone_iacorp/area_logada");
+				}
+			}
+		</script>
 	</head>
 	<body>
 		<div class="container-fluid container-menu position-sticky sticky-top">
@@ -63,7 +70,7 @@
 										<input type="password" class="form-control" id="senha" placeholder="Senha">
 									</div>
 									<div class="mb-3 text-center">
-										<button class="btn btn-primary btn-enviar">Login</button>
+										<button class="btn btn-primary btn-enviar" id="envia-login">Login</button>
 									</div>
 								</form>
 							</div>
