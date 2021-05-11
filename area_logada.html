@@ -7,8 +7,109 @@
 		<link rel="stylesheet" href="./assets/libs/bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" href="./assets/libs/bootstrap-icons/bootstrap-icons.css">
 		<link rel="stylesheet" href="./assets/css/style.css">
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> 
 		<script type="text/javascript" src="./assets/libs/popper/popper.min.js"></script>
 		<script type="text/javascript" src="./assets/libs/bootstrap/js/bootstrap.min.js"></script>
+		<script type="texto/javascript" src="https://cdn.datatables.net/plug-ins/1.10.24/i18n/Portuguese-Brasil.json"></script>
+		<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				function reclassificar(){
+					var btnAlvo = $(this).parent().children(".btn-porcentagem");
+					if(btnAlvo.length == 0){
+						var pai = $(this).parent();
+						var novoBtn = document.createElement("button");
+						novoBtn.classList.add("btn-porcentagem", "btn");
+						pai.empty().append(novoBtn);
+						btnAlvo = pai.children(".btn-porcentagem");
+
+						var btnReclassificar = document.createElement("button");
+						btnReclassificar.classList.add("btn", "btn-secondary");
+						btnReclassificar.onclick = reclassificar;
+
+						var iconeRec = document.createElement("i");
+						iconeRec.classList.add("bi", "bi-arrow-repeat");
+						btnReclassificar.appendChild(iconeRec);
+						pai.append(btnReclassificar);
+					}
+					console.log(btnAlvo);
+					var porcentagem = Math.round((Math.random() + Number.EPSILON)*10000, 2)/100;
+					var classeBtn = porcentagem > 50 ? "btn-danger" : "btn-primary";
+					var classe = porcentagem > 50 ? "fa-fire" : "fa-snowflake";
+					var nome = porcentagem > 50 ? "quente" : "frio";
+					var porcentagemDisplay = porcentagem > 50 ? porcentagem : 100 - porcentagem;
+
+					btnAlvo.empty();
+					btnAlvo[0].classList.remove("btn-danger", "btn-primary");
+					btnAlvo[0].classList.add(classeBtn);
+
+					var icone = document.createElement("i");
+					icone.classList.add(classe, "fas");
+					btnAlvo[0].appendChild(icone);
+					btnAlvo[0].appendChild(document.createTextNode(` ${porcentagemDisplay.toFixed(2)}% ${nome}`));
+				}
+
+				(()=>{
+					return new Promise((resolve, reject) =>{
+						$.ajax({
+							"url": "https://cdn.datatables.net/plug-ins/1.10.24/i18n/Portuguese-Brasil.json",
+							"dataType": "JSON",
+							"success": function(rsp){
+								resolve(rsp);
+							},
+							"error": function(e){
+								reject(e);
+							}
+						})
+					});
+				})().then(function(traducao){
+					$(".btn-classificar-lead").click(reclassificar);
+					var qtdLinhasAdicionais = 10 + Math.floor(Math.random()*20);
+					var linhasAtuais = $("tbody tr");
+					
+					for(var i = 0; i < qtdLinhasAdicionais; i++){
+						var idAtual = 5 + i;
+						var clone = $(linhasAtuais[i%4]).clone();
+						clone.children("td:first-child").html(idAtual);
+						var porcentagem = Math.round((Math.random() + Number.EPSILON)*10000, 2)/100;
+						var classeBtn = porcentagem > 50 ? "btn-danger" : "btn-primary";
+						var classe = porcentagem > 50 ? "fa-fire" : "fa-snowflake";
+						var nome = porcentagem > 50 ? "quente" : "frio";
+						var porcentagemDisplay = porcentagem > 50 ? porcentagem : 100 - porcentagem;
+
+						var btn = document.createElement("label");
+						btn.classList.add(classeBtn, "btn", "btn-porcentagem");
+
+						var icone = document.createElement("i");
+						icone.classList.add(classe, "fas");
+						
+						btn.appendChild(icone);
+						btn.appendChild(document.createTextNode(` ${porcentagemDisplay}% ${nome}`));
+						clone.children("td:last-child").empty()[0].appendChild(btn);
+
+						var btnReclassificar = document.createElement("button");
+						btnReclassificar.classList.add("btn", "btn-secondary");
+						btnReclassificar.onclick = reclassificar;
+
+						var iconeRec = document.createElement("i");
+						iconeRec.classList.add("bi", "bi-arrow-repeat");
+						btnReclassificar.appendChild(iconeRec);
+						clone.children("td:last-child")[0].appendChild(btnReclassificar);
+
+						$("tbody").append(clone);
+					}
+
+					$(".loader").hide();
+					$(".container-conteudo").removeClass("d-flex");
+					$("table").show();
+					$("table").DataTable({
+						"language": traducao
+					});
+				});
+			});
+		</script>
 	</head>
 	<body>
 		<div class="container-fluid container-menu position-sticky sticky-top menu-prototipo">
@@ -34,65 +135,77 @@
 				</div>
 			</div>
 		</div>
-		<div>
-			<div class="container-fluid container-conteudo container-prototipo col-md-12 d-flex flex-row justify-content-center align-items-start" id="container-leads">
-				<table class="tabela-leads">
-					<thead>
-						<tr>
-							<th>Nome</th>
-							<th>E-mail</th>
-							<th>Qtd. Conversões</th>
-							<th>Última Conversão</th>
-							<th>Tags</th>
-							<th>Classificar</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>Antônio</td>
-							<td>antonio_santos@gmail.com</td>
-							<td>20</td>
-							<td>5 minutos atrás</td>
-							<td>
-								<button class="btn btn-tag disabled btn-secondary"><i class="bi bi-tag"></i> Muitas Conversões</button>
-							</td>
-							<td>
-								<button class="btn btn-primary btn-classificar-lead">Classificar</button>
-							</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td><button class="btn btn-tag disabled btn-secondary"><i class="bi bi-tag"></i> Contato Novo</button></td>
-							<td>
-								<button class="btn btn-primary btn-classificar-lead">Classificar</button>
-							</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td>
-								<button class="btn btn-tag disabled btn-secondary"><i class="bi bi-tag"></i> Empresa Premium</button>
-								<button class="btn btn-tag disabled btn-secondary"><i class="bi bi-tag"></i> Bom Relacionamento</button>
-							</td>
-							<td>
-								<button class="btn btn-primary btn-classificar-lead">Classificar</button>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="container-fluid container-conteudo container-prototipo col-md-12 d-flex flex-row justify-content-center align-items-center" id="container-leads">
+					<div class="loader"></div>
+					<table class="tabela-leads">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Nome</th>
+								<th>E-mail</th>
+								<th>Qtd. Conversões</th>
+								<th>Última Conversão</th>
+								<th>Tags</th>
+								<th>Classificar</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>1</td>
+								<td>Antônio</td>
+								<td>antonio_santos@gmail.com</td>
+								<td>49</td>
+								<td>5 minutos atrás</td>
+								<td>
+									<button class="btn btn-tag disabled btn-secondary"><i class="bi bi-tag"></i> Muitas Conversões</button>
+								</td>
+								<td>
+									<button class="btn btn-secondary btn-classificar-lead">Classificar</button>
+								</td>
+							</tr>
+							<tr>
+								<td>2</td>
+								<td>Cecília</td>
+								<td>ceci_amaral@yahoo.com</td>
+								<td>14</td>
+								<td>1 dia atrás</td>
+								<td></td>
+								<td>
+									<button class="btn btn-secondary btn-classificar-lead">Classificar</button>
+								</td>
+							</tr>
+							<tr>
+								<td>3</td>
+								<td>Carlos</td>
+								<td>c_silva@outlook.com</td>
+								<td>3</td>
+								<td>5 minutos atrás</td>
+								<td>
+									<button class="btn btn-tag disabled btn-secondary"><i class="bi bi-tag"></i> Contato Novo</button>
+								</td>
+								<td>
+									<button class="btn btn-secondary btn-classificar-lead">Classificar</button>
+								</td>
+							</tr>
+							<tr>
+								<td>4</td>
+								<td>Silvia</td>
+								<td>silvia@bancoxpto.com.br</td>
+								<td>23</td>
+								<td>12 horas atrás</td>
+								<td>
+									<button class="btn btn-tag disabled btn-secondary"><i class="bi bi-tag"></i> Empresa Premium</button>
+									<button class="btn btn-tag disabled btn-secondary"><i class="bi bi-tag"></i> Bom Relacionamento</button>
+								</td>
+								<td>
+									<button class="btn btn-secondary btn-classificar-lead">Classificar</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 	</body>
