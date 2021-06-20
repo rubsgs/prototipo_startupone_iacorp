@@ -90,6 +90,7 @@
 
 .card-produto{
 	min-height: 240px;
+	flex-basis: 240px;
 }
 
 .card-sobre{
