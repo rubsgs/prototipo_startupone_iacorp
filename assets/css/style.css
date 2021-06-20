@@ -50,7 +50,7 @@
 }
 
 .container-conteudo{
-	height: calc(100vh - 5vh - 5px);
+	min-height: calc(100vh - 5vh - 5px);
 }
 .container-logo img{
 	max-height: 5vh;
