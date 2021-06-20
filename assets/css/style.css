@@ -88,8 +88,8 @@
 	font-weight: bold;
 }
 
-.col.base-240{
-	flex-basis: 240px;
+.d-flex>.col{
+	flex-basis: 280px;
 }
 
 .card-produto{
