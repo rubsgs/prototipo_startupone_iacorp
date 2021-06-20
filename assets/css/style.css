@@ -92,6 +92,10 @@
 	flex-basis: 280px;
 }
 
+#parceiros img {
+	max-width: 100%;
+}
+
 .card-produto{
 	min-height: 240px;
 }
